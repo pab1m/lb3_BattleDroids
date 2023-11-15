@@ -15,7 +15,6 @@ public class Main {
             System.out.println("\nSelect an option:");
             System.out.println("1. Create a combat droid");
             System.out.println("2. Create a medical droid");
-
             System.out.println("3. Show the list of created Droids");
             System.out.println("4. Battle 1 vs 1");
             System.out.println("5. Team vs Team");
@@ -42,19 +41,18 @@ public class Main {
                 case 4 -> {
                     oneOnOneBattle(droids, scanner);
                 }
-                // Логіка бою команда на команду
+
                 case 5 -> {
+                    teamBattle(droids, scanner);
                 }
-                // Логіка запису бою у файл
-                case 6 -> {
-                }
-                // Логіка відтворення бою з файлу
+
+                case 6 -> {}
+
                 case 7 ->{}
 
                 case 8 -> System.exit(0);
 
                 default -> System.out.println("Incorrect option selection. Try again.");
-
             }
         }
     }
@@ -115,9 +113,9 @@ public class Main {
             return;
         }
 
-        System.out.println("List of created Droids:");
+        System.out.println("\nList of created Droids:");
         for (Droid droid : droids) {
-            System.out.println(droid.getName());
+            System.out.println(droid);
         }
     }
 
@@ -139,7 +137,6 @@ public class Main {
         Droid droid2 = findDroidByName(droids, name2);
 
         if (droid1 != null && droid2 != null) {
-//            Battle.oneOnOneBattle((CombatDroid) droid1, (MedicalDroid) droid2);
             Battle.oneOnOneBattle(droid1, droid2);
         } else {
             System.out.println("No droid found with that name.");
@@ -153,6 +150,46 @@ public class Main {
             }
         }
         return null;
+    }
+
+
+    private static void teamBattle(List<Droid> droids, Scanner scanner) {
+        if (droids.size() < 4) {
+            System.out.println("Must have at least 4 droids (2 on each team) for a team battle.");
+            return;
+        }
+
+        List<Droid> team1 = new ArrayList<>();
+        List<Droid> team2 = new ArrayList<>();
+
+        System.out.println("Select droids for Team 1:");
+        selectDroidsForTeam(droids, team1, scanner);
+
+        System.out.println("Select droids for Team 2:");
+        selectDroidsForTeam(droids, team2, scanner);
+
+        Battle.teamBattle(team1.toArray(new Droid[0]), team2.toArray(new Droid[0]));
+    }
+
+
+    private static void selectDroidsForTeam(List<Droid> droids, List<Droid> team, Scanner scanner) {
+        int numDroids = 2;
+        System.out.println("Select " + numDroids + " droids for the team:");
+
+        showDroids(droids);
+
+        for (int i = 0; i < numDroids; i++) {
+            System.out.println("Enter the name of droid " + (i + 1) + ":");
+            String name = scanner.next();
+            Droid selectedDroid = findDroidByName(droids, name);
+
+            if (selectedDroid != null) {
+                team.add(selectedDroid);
+            } else {
+                System.out.println("No droid found with that name.");
+                i--;
+            }
+        }
     }
 
 }

@@ -27,27 +27,21 @@ public class MedicalDroid extends Droid{
         currentHP += healingPower;
         setHealth(currentHP);
 
-        System.out.println(getName() + " has recovered " + healingPower + " health.");
+//        System.out.println('"' + getName()+ '"' + " has recovered " + healingPower + " health.");
     }
 
     @Override
     public void takeDamage(int damage) {
         super.takeDamage(damage);
         heal(healingPower);
-
-
-
-//        int newHP = getHealth();
-//        newHP -= damage;
-//        newHP += getHealingPower();
-//        setHealth(newHP);
+        System.out.println('"' + getName()+ '"' + " has recovered " + healingPower + " health.");
 
     }
 
     @Override
     public String toString() {
-        return "Droid{" +
-                "name='" + getName() + '\'' +
+        return "{" +
+                "name=" + getName() +
                 ", health=" + getHealth() +
                 ", damage=" + getDamage() +
                 ", healingPower=" + getHealingPower() +

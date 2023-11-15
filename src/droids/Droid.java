@@ -1,6 +1,9 @@
 package droids;
 
 
+import droids.medicaldroids.MedicalDroid;
+import droids.medicaldroids.MedicalDroid.*;
+
 public class Droid {
 
     private String name;
@@ -50,18 +53,17 @@ public class Droid {
 
 
     public void attack(Droid target) {
-        System.out.println("\n" + getName() + "(" + getHealth() + "HP)" + " vs " + target.getName() + "(" + target.getHealth() + "HP)");
+        System.out.println("\n" + getName() + "(" + getHealth() + "HP Damage=" + getDamage() + ")" + " vs " + target.getName() + "(" + target.getHealth() + "HP Damage=" + target.getDamage() + ")");
         int damageDealt = getDamage();
+        System.out.println('"'+ getName() + '"' + " attacks " + '"' + target.getName() + '"' + " and deals " + damageDealt + " damage.");
         target.takeDamage(damageDealt);
-        System.out.println(getName() + " attacks " + target.getName() + " and deals " + damageDealt + " damage.");
-
     }
 
 
     @Override
     public String toString() {
         return "Droid{" +
-                "name='" + name + '\'' +
+                "name='" + name +
                 ", health=" + health +
                 ", damage=" + damage +
                 '}';

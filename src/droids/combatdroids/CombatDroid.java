@@ -24,18 +24,18 @@ public class CombatDroid extends Droid {
     @Override
     public void takeDamage(int damage) {
         int effectiveDamage = damage - getArmor();
+        System.out.println("Armor " + '"' + getName() + '"' + " absorbed into itself " +  getArmor() + " units of damage.");
         if (effectiveDamage > 0) {
             int currentHealth = getHealth();
             currentHealth -= effectiveDamage;
             setHealth(currentHealth);
-
         }
     }
 
     @Override
     public String toString() {
-        return "Droid{" +
-                "name='" + getName() + '\'' +
+        return "{" +
+                "name=" + getName() +
                 ", health=" + getHealth() +
                 ", damage=" + getDamage() +
                 ", armor=" + getArmor() +
