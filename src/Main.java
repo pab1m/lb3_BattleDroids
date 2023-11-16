@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 public class Main {
     public static void main(String[] args) {
-        List<Droid> droids = new ArrayList<>();
+        ArrayList<Droid> droids = new ArrayList<>();
+        ArrayList<String> battleRecord = new ArrayList<>();
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -18,9 +22,8 @@ public class Main {
             System.out.println("3. Show the list of created Droids");
             System.out.println("4. Battle 1 vs 1");
             System.out.println("5. Team vs Team");
-            System.out.println("6. Save record of the battle");
-            System.out.println("7. Play record of the battle");
-            System.out.println("8. Exit");
+            System.out.println("6. Play record of the battle");
+            System.out.println("7. Exit");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -46,11 +49,11 @@ public class Main {
                     teamBattle(droids, scanner);
                 }
 
-                case 6 -> {}
+                case 6 -> {
+                    BattleRecordSaver.loadAndPlayBattleRecord();
+                }
 
-                case 7 ->{}
-
-                case 8 -> System.exit(0);
+                case 7 -> System.exit(0);
 
                 default -> System.out.println("Incorrect option selection. Try again.");
             }
@@ -79,7 +82,7 @@ public class Main {
 
         droids.add(newDroid);
 
-        System.out.println("\u001B[32mCombat Droid " + newDroid.getName() + " created.\u001B[0m");
+        System.out.println("\u001B[32mCombat Droid " + '"' + newDroid.getName() + '"' + " created.\u001B[0m");
 
     }
 
@@ -103,7 +106,7 @@ public class Main {
         newDroid.setHealingPower(healingPower);
         droids.add(newDroid);
 
-        System.out.println("\u001B[32mMedical Droid " + newDroid.getName() + " created.\u001B[0m");
+        System.out.println("\u001B[32mMedical Droid " + '"' + newDroid.getName() + '"' + " created.\u001B[0m");
 
     }
 
@@ -115,7 +118,7 @@ public class Main {
 
         System.out.println("\nList of created Droids:");
         for (Droid droid : droids) {
-            System.out.println(droid);
+            System.out.println(droid.getName() + droid);
         }
     }
 
@@ -152,7 +155,6 @@ public class Main {
         return null;
     }
 
-
     private static void teamBattle(List<Droid> droids, Scanner scanner) {
         if (droids.size() < 4) {
             System.out.println("Must have at least 4 droids (2 on each team) for a team battle.");
@@ -170,7 +172,6 @@ public class Main {
 
         Battle.teamBattle(team1.toArray(new Droid[0]), team2.toArray(new Droid[0]));
     }
-
 
     private static void selectDroidsForTeam(List<Droid> droids, List<Droid> team, Scanner scanner) {
         int numDroids = 2;

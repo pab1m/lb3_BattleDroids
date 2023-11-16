@@ -1,6 +1,6 @@
 package droids.combatdroids;
-
 import droids.Droid;
+
 
 public class CombatDroid extends Droid {
     private int armor;
@@ -34,9 +34,8 @@ public class CombatDroid extends Droid {
 
     @Override
     public String toString() {
-        return "{" +
-                "name=" + getName() +
-                ", health=" + getHealth() +
+        return " {" +
+                "health=" + getHealth() +
                 ", damage=" + getDamage() +
                 ", armor=" + getArmor() +
                 '}';

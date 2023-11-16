@@ -1,9 +1,6 @@
 package droids;
 
 
-import droids.medicaldroids.MedicalDroid;
-import droids.medicaldroids.MedicalDroid.*;
-
 public class Droid {
 
     private String name;
@@ -53,6 +50,7 @@ public class Droid {
 
 
     public void attack(Droid target) {
+
         System.out.println("\n" + getName() + "(" + getHealth() + "HP Damage=" + getDamage() + ")" + " vs " + target.getName() + "(" + target.getHealth() + "HP Damage=" + target.getDamage() + ")");
         int damageDealt = getDamage();
         System.out.println('"'+ getName() + '"' + " attacks " + '"' + target.getName() + '"' + " and deals " + damageDealt + " damage.");

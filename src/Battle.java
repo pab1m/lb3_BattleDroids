@@ -1,10 +1,23 @@
 import droids.Droid;
-import droids.combatdroids.CombatDroid;
-import droids.medicaldroids.MedicalDroid;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Random;
+
 
 public class Battle {
     public static void oneOnOneBattle(Droid droid1, Droid droid2) {
+        StringBuilder battleRecord = new StringBuilder("Battle Record 1 vs 1:\n");
+        battleRecord.append(droid1.getName()).append(" vs ").append(droid2.getName()).append("\n");
+
         while (droid1.isAlive() && droid2.isAlive()) {
+            battleRecord.append("\n").append(droid1.getName()).append("(").append(droid1.getHealth()).append("HP " +
+                    "Damage=").append(droid1.getDamage()).append(")").append(" vs ").append(droid2.getName()).append("(")
+                    .append(droid2.getHealth()).append("HP Damage=").append(droid2.getDamage()).append(")");
+
             droid1.attack(droid2);
 
             if (droid2.isAlive()){
@@ -13,59 +26,71 @@ public class Battle {
         }
 
         if (droid1.isAlive()) {
+            battleRecord.append("\n").append(droid1.getName()).append(" wins!");
             System.out.println("\n\u001B[32m" + droid1.getName() + " wins!\u001B[0m");
         } else if (droid2.isAlive()) {
+            battleRecord.append("\n").append(droid2.getName()).append(" wins!");
             System.out.println("\n\u001B[32m" + droid2.getName() + " wins! \u001B[0m");
         } else {
-            System.out.println("\n" + "It's a draw!");
+            battleRecord.append("\n" + "It's a draw!");
+            System.out.println("\n\u001B[33mIt's a draw!\u001B[0m");
         }
-
+        battleRecord.append("\n--------------------------------------------------");
+        BattleRecordSaver.saveBattleRecord(battleRecord);
     }
 
 
     public static void teamBattle(Droid[] team1, Droid[] team2) {
-        int team1TotalDamage = calculateTotalDamage(team1);
-        System.out.println("\nteam1TotalDamage" + team1TotalDamage);
-        System.out.println(team1[0] + " " + team1[1]);
-        int team2TotalDamage = calculateTotalDamage(team2);
+        Random random = new Random();
+
+        StringBuilder battleRecord = new StringBuilder("Battle Record Team vs Team:\n");
+
+        battleRecord.append("\nTeam 1:").append(team1[0]).append(" та ").append(team1[1]);
+        battleRecord.append("\n                   VS");
+        battleRecord.append("\nTeam 2:").append(team2[0]).append(" та ").append(team2[1]);
+
+        System.out.println("\nTeam 1:" + team1[0] + " та " + team1[1]);
+        System.out.printf("%45sVS", "");
+        System.out.println("\nTeam 2:" + team2[0] + " та " + team2[1]);
 
         int team1Health = calculateTotalHealth(team1);
-        System.out.println("\nteam1Health" + team1Health);
-
         int team2Health = calculateTotalHealth(team2);
 
         while (team1Health > 0 && team2Health > 0) {
-            int team1TurnDamage = calculateTurnDamage(team1);
-            System.out.println("\nteam1TurnDamage" + team1TurnDamage);
+            int randomValue1 = random.nextInt(2);
+            int randomValue2 = random.nextInt(2);
 
-            int team2TurnDamage = calculateTurnDamage(team2);
+            if ((team2[randomValue1].isAlive()) && (team1[randomValue2].isAlive())){
+                team2[randomValue1].attack(team1[randomValue2]);
 
-            // Визначаємо, яка команда атакує у поточному ході
-            if (team1TurnDamage >= team2TurnDamage) {
-                team1Health -= team2TurnDamage;
-                reduceHealth(team1, team2TurnDamage);
-            } else {
-                team2Health -= team1TurnDamage;
-                reduceHealth(team2, team1TurnDamage);
+                battleRecord.append("\n").append(team2[randomValue1].getName()).append("(").append(team2[randomValue1].getHealth()).append("HP " + "Damage=").append(team2[randomValue1].getDamage()).append(")").append(" vs ").append(team1[randomValue2].getName()).append("(").append(team1[randomValue2].getHealth()).append("HP Damage=").append(team1[randomValue2].getDamage()).append(")");
             }
+
+            if ((team1[randomValue1].isAlive()) && (team2[randomValue2].isAlive())){
+                team1[randomValue1].attack(team2[randomValue2]);
+
+                battleRecord.append("\n").append(team1[randomValue1].getName()).append("(").append(team1[randomValue1].getHealth()).append("HP " + "Damage=").append(team1[randomValue1].getDamage()).append(")").append(" vs ").append(team2[randomValue2].getName()).append("(").append(team2[randomValue2].getHealth()).append("HP Damage=").append(team2[randomValue2].getDamage()).append(")");
+            }
+
+            team1Health = calculateTotalHealth(team1);
+            team2Health = calculateTotalHealth(team2);
         }
 
         if (team1Health > team2Health) {
-            System.out.println("Team 1 wins!");
+            battleRecord.append("\n").append("Team 1 wins!");
+            System.out.println("\n\u001B[32mTeam 1 wins!\u001B[0m");
         } else if (team2Health > team1Health) {
-            System.out.println("Team 2 wins!");
+            battleRecord.append("\n").append("Team 2 wins!");
+            System.out.println("\n\u001B[32mTeam 2 wins!\u001B[0m");
         } else {
-            System.out.println("It's a draw!");
+            battleRecord.append("\n" + "It's a draw!");
+            System.out.println("\n\u001B[33mIt's a draw!\u001B[0m");
         }
+
+        battleRecord.append("\n-------------------------------------------------------------");
+        BattleRecordSaver.saveBattleRecord(battleRecord);
     }
 
-    private static int calculateTotalDamage(Droid[] team) {
-        int totalDamage = 0;
-        for (Droid droid : team) {
-            totalDamage += droid.getDamage();
-        }
-        return totalDamage;
-    }
 
     private static int calculateTotalHealth(Droid[] team) {
         int totalHealth = 0;
@@ -74,64 +99,4 @@ public class Battle {
         }
         return totalHealth;
     }
-
-    private static int calculateTurnDamage(Droid[] team) {
-        int turnDamage = 0;
-        for (Droid droid : team) {
-            if (droid.isAlive()) {
-                turnDamage += droid.getDamage();
-            }
-        }
-        return turnDamage;
-    }
-
-    private static void reduceHealth(Droid[] team, int damage) {
-        for (Droid droid : team) {
-            if (droid.isAlive()) {
-                droid.takeDamage(damage);
-            }
-        }
-    }
-
-
-//    public static void teamBattle(Droid[] team1, Droid[] team2) {
-//        int team1TotalDamage = 0;
-//        int team2TotalDamage = 0;
-//
-//        for (Droid droid : team1) {
-//            team1TotalDamage += droid.getDamage();
-//        }
-//
-//        for (Droid droid : team2) {
-//            team2TotalDamage += droid.getDamage();
-//        }
-//
-//        while (team1TotalDamage > 0 && team2TotalDamage > 0) {
-//            for (Droid droid : team2) {
-//                droid.takeDamage(team1TotalDamage);
-//                if (!droid.isAlive()) {
-//                    team2TotalDamage -= droid.getDamage();
-//                }
-//            }
-//
-//            for (Droid droid : team1) {
-//                droid.takeDamage(team2TotalDamage);
-//                if (!droid.isAlive()) {
-//                    team1TotalDamage -= droid.getDamage();
-//                }
-//            }
-//        }
-//
-//        if (team1TotalDamage > 0) {
-//            System.out.println("Команда 1 перемогла!");
-//        } else if (team2TotalDamage > 0) {
-//            System.out.println("Команда 2 перемогла!");
-//        } else {
-//            System.out.println("Нічия!");
-//        }
-//    }
-
-
-
-
 }
