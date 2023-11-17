@@ -1,16 +1,11 @@
 import droids.Droid;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Random;
 
 
 public class Battle {
     public static void oneOnOneBattle(Droid droid1, Droid droid2) {
-        StringBuilder battleRecord = new StringBuilder("Battle Record 1 vs 1:\n");
+        StringBuilder battleRecord = new StringBuilder("\nBattle Record 1 vs 1:\n");
         battleRecord.append(droid1.getName()).append(" vs ").append(droid2.getName()).append("\n");
 
         while (droid1.isAlive() && droid2.isAlive()) {
@@ -43,7 +38,7 @@ public class Battle {
     public static void teamBattle(Droid[] team1, Droid[] team2) {
         Random random = new Random();
 
-        StringBuilder battleRecord = new StringBuilder("Battle Record Team vs Team:\n");
+        StringBuilder battleRecord = new StringBuilder("\nBattle Record Team vs Team:\n");
 
         battleRecord.append("\nTeam 1:").append(team1[0]).append(" та ").append(team1[1]);
         battleRecord.append("\n                   VS");

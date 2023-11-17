@@ -1,13 +1,7 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class BattleRecordSaver {
     public static void saveBattleRecord(StringBuilder battleRecord) {

@@ -1,4 +1,5 @@
 package droids.medicaldroids;
+
 import droids.Droid;
 
 
@@ -20,7 +21,6 @@ public class MedicalDroid extends Droid{
     public void setHealingPower(int healingPower) {
         this.healingPower = healingPower;
     }
-
     public void heal(int healingPower) {
         int currentHP = getHealth();
 

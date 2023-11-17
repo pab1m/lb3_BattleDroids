@@ -45,12 +45,14 @@ public class Droid {
     }
 
     public void takeDamage(int damage){
-        health -= damage;
+        if (damage > 0)
+            health -= damage;
+        else System.out.println("Invalid damage value");
     }
 
 
     public void attack(Droid target) {
-
+        System.out.println("\n" + getName() + "(" + getHealth() + "HP Damage=" + getDamage() + ")" + " vs " + target.getName() + "(" + target.getHealth() + "HP Damage=" + target.getDamage() + ")");
         System.out.println("\n" + getName() + "(" + getHealth() + "HP Damage=" + getDamage() + ")" + " vs " + target.getName() + "(" + target.getHealth() + "HP Damage=" + target.getDamage() + ")");
         int damageDealt = getDamage();
         System.out.println('"'+ getName() + '"' + " attacks " + '"' + target.getName() + '"' + " and deals " + damageDealt + " damage.");

@@ -62,7 +62,11 @@ public class Main {
 
     private static void createCombatDroid(List<Droid> droids, Scanner scanner) {
         System.out.println("Enter Droid name:");
-        String name = scanner.next();
+        String name = scanner.nextLine();
+        if (isDroidNameUnique(droids, name)){
+            System.out.println("Droid with the same name already exists. Choose a different name.");
+            return;
+        }
 
         System.out.println("Enter Droid health:");
         int health = scanner.nextInt();
@@ -88,7 +92,12 @@ public class Main {
 
     private static void createMedicalDroid(List<Droid> droids, Scanner scanner) {
         System.out.println("Enter Droid name:");
-        String name = scanner.next();
+        String name = scanner.nextLine();
+
+        if (isDroidNameUnique(droids, name)){
+            System.out.println("Droid with the same name already exists. Choose a different name.");
+            return;
+        }
 
         System.out.println("Enter Droid health:");
         int health = scanner.nextInt();
@@ -153,6 +162,15 @@ public class Main {
             }
         }
         return null;
+    }
+
+    private static boolean isDroidNameUnique(List<Droid> droids, String name) {
+        for (Droid droid : droids) {
+            if (droid.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void teamBattle(List<Droid> droids, Scanner scanner) {
